@@ -2,7 +2,6 @@ function locs124 = getLocs124()
 
 % locs124 = getLocs124()
 % --------------------------------------------
-% Blair - March 30, 2015
 % This function returns the locations of 124 channels for topoplots.
 % No vertex (Cz)
 % Usage:
