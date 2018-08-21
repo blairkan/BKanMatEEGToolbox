@@ -2,8 +2,10 @@
 
 Miscellaneous functions for EEG preprocessing and analysis (Matlab). Used to be MatEEGPreproc.
 
-## Authors
-* [Blair Kaneshiro](https://github.com/blairkan) (primary author)
+## Author
+* [Blair Kaneshiro](https://github.com/blairkan)
+
+## Contributors
 * [Jacek Dmochowski](https://github.com/dmochow/)
 * [Nick Gang](https://github.com/nickgang)
 * [Steven Losorelli](https://github.com/slosorelli)
