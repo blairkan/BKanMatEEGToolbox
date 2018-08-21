@@ -1,0 +1,450 @@
+% createNeighboringElectrodesFrom257.m
+% ------------------------------------
+% Blair - Jan 10, 2018
+%
+% This script contains the neighboring assignment electrodes for the full
+% 257-channel montage, and from there generates all the
+% neighboringElectrodes###.mat files for full and reduced electrode
+% montages related to the 256/257-channel system. This is intended to serve
+% as the only place where the neighboring electrodes need to be written
+% out, to minimize typing errors and centralize edits/updates.
+
+% This software is licensed under the 3-Clause BSD License (New BSD License), 
+% as follows:
+% -------------------------------------------------------------------------
+% Copyright 2018 Blair Kaneshiro
+% 
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are met:
+% 
+% 1. Redistributions of source code must retain the above copyright notice, 
+% this list of conditions and the following disclaimer.
+% 
+% 2. Redistributions in binary form must reproduce the above copyright notice, 
+% this list of conditions and the following disclaimer in the documentation 
+% and/or other materials provided with the distribution.
+% 
+% 3. Neither the name of the copyright holder nor the names of its 
+% contributors may be used to endorse or promote products derived from this 
+% software without specific prior written permission.
+% 
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ?AS IS?
+% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
+% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+% POSSIBILITY OF SUCH DAMAGE.
+
+ccc
+outDir = '/usr/ccrma/media/jordan/Analysis/misc/EGIMontages';
+saveOut = 1;
+
+NEIGHBORS = cell(257,1); % Initialize as full 257-channel montage
+
+% Now the fun part
+NEIGHBORS{1} = [10 2 221 220 226];
+NEIGHBORS{2} = [1 10 11 3 222 221];
+NEIGHBORS{3} = [2 11 12 4 223 222];
+NEIGHBORS{4} = [3 12 13 5 224 223];
+NEIGHBORS{5} = [4 13 14 6 215 224];
+NEIGHBORS{6} = [5 14 15 7 207 215];
+NEIGHBORS{7} = [6 15 16 8 198 207];
+NEIGHBORS{8} = [7 16 17 9 186 198];
+NEIGHBORS{9} = [8 17 44 45 257 186];
+NEIGHBORS{10} = [1 2 11 18];
+
+NEIGHBORS{11} = [10 18 19 12 3 2];
+NEIGHBORS{12} = [11 19 20 13 4 3];
+NEIGHBORS{13} = [12 20 21 14 5 4];
+NEIGHBORS{14} = [13 21 22 15 6 5];
+NEIGHBORS{15} = [14 22 23 16 7 6];
+NEIGHBORS{16} = [15 23 24 17 8 7];
+NEIGHBORS{17} = [16 24 43 44 9 8];
+NEIGHBORS{18} = [25 19 11 10];
+NEIGHBORS{19} = [18 25 26 20 12 11];
+NEIGHBORS{20} = [19 26 27 21 13 12];
+
+NEIGHBORS{21} = [20 27 28 22 14 13];
+NEIGHBORS{22} = [21 28 29 23 15 14];
+NEIGHBORS{23} = [22 29 30 24 16 15];
+NEIGHBORS{24} = [23 30 42 43 17 16];
+NEIGHBORS{25} = [31 32 26 19 18];
+NEIGHBORS{26} = [25 32 33 27 20 19];
+NEIGHBORS{27} = [26 33 34 28 21 20];
+NEIGHBORS{28} = [27 34 35 29 22 21];
+NEIGHBORS{29} = [28 35 36 30 23 22];
+NEIGHBORS{30} = [29 36 41 42 24 23];
+
+NEIGHBORS{31} = [32 25];
+NEIGHBORS{32} = [37 33 26 25 31];
+NEIGHBORS{33} = [32 37 38 34 27 26];
+NEIGHBORS{34} = [33 38 39 35 28 27];
+NEIGHBORS{35} = [34 39 40 36 29 28];
+NEIGHBORS{36} = [35 40 41 30 29];
+NEIGHBORS{37} = [46 38 33 32];
+NEIGHBORS{38} = [37 46 47 39 34 33];
+NEIGHBORS{39} = [38 47 48 40 35 34];
+NEIGHBORS{40} = [39 48 49 41 36 35];
+
+NEIGHBORS{41} = [40 49 50 42 30 36];
+NEIGHBORS{42} = [41 50 51 43 24 30];
+NEIGHBORS{43} = [42 51 52 44 17 24];
+NEIGHBORS{44} = [43 52 53 45 9 17];
+NEIGHBORS{45} = [44 53 80 81 257 9];
+NEIGHBORS{46} = [54 47 38 37];
+NEIGHBORS{47} = [46 54 55 48 39 38];
+NEIGHBORS{48} = [47 55 56 49 40 39];
+NEIGHBORS{49} = [48 56 57 50 41 40];
+NEIGHBORS{50} = [49 57 58 51 42 41];
+
+NEIGHBORS{51} = [50 58 59 52 43 42];
+NEIGHBORS{52} = [51 59 60 53 44 43];
+NEIGHBORS{53} = [52 60 79 80 45 44];
+NEIGHBORS{54} = [252 61 55 47 46];
+NEIGHBORS{55} = [54 61 62 56 48 47];
+NEIGHBORS{56} = [55 62 63 57 49 48];
+NEIGHBORS{57} = [56 63 64 58 50 49];
+NEIGHBORS{58} = [57 64 65 59 51 50];
+NEIGHBORS{59} = [58 65 66 60 52 51];
+NEIGHBORS{60} = [59 66 78 79 53 52];
+
+NEIGHBORS{61} = [67 68 62 55 54 252 253];
+NEIGHBORS{62} = [61 68 69 63 56 55];
+NEIGHBORS{63} = [62 69 70 64 57 56];
+NEIGHBORS{64} = [63 70 71 65 58 57];
+NEIGHBORS{65} = [64 71 72 66 59 58];
+NEIGHBORS{66} = [65 72 77 78 60 59];
+NEIGHBORS{67} = [68 61 253 254 73];
+NEIGHBORS{68} = [69 62 61 67];
+NEIGHBORS{69} = [74 70 63 62 68];
+NEIGHBORS{70} = [69 74 75 71 64 63];
+
+NEIGHBORS{71} = [70 75 76 72 65 64];
+NEIGHBORS{72} = [71 76 77 66 65];
+NEIGHBORS{73} = [67 254 255 82];
+NEIGHBORS{74} = [83 84 75 70 69];
+NEIGHBORS{75} = [74 84 85 76 71 70];
+NEIGHBORS{76} = [75 85 86 77 72 71];
+NEIGHBORS{77} = [76 86 87 78 66 72];
+NEIGHBORS{78} = [77 87 88 79 60 66];
+NEIGHBORS{79} = [78 88 89 80 53 60];
+NEIGHBORS{80} = [79 89 90 81 45 53];
+
+NEIGHBORS{81} = [80 90 131 132 257 45];
+NEIGHBORS{82} = [73 255 256 91 92];
+NEIGHBORS{83} = [94 95 84 74];
+NEIGHBORS{84} = [83 95 96 85 75 74];
+NEIGHBORS{85} = [84 96 97 86 76 75];
+NEIGHBORS{86} = [85 97 98 87 77 76];
+NEIGHBORS{87} = [86 98 99 88 78 77];
+NEIGHBORS{88} = [87 99 100 89 79 78];
+NEIGHBORS{89} = [88 100 90 80 79];
+NEIGHBORS{90} = [89 130 131 81 80];
+
+NEIGHBORS{91} = [102 92 82 256];
+NEIGHBORS{92} = [82 91 102 103 93];
+NEIGHBORS{93} = [92 103 104 94];
+NEIGHBORS{94} = [93 104 105 95 83];
+NEIGHBORS{95} = [94 105 106 96 84 83];
+NEIGHBORS{96} = [95 106 107 97 85 84];
+NEIGHBORS{97} = [96 107 108 98 86 85];
+NEIGHBORS{98} = [97 108 109 99 87 86];
+NEIGHBORS{99} = [98 109 110 100 88 87];
+NEIGHBORS{100} = [99 110 101 89 88];
+
+NEIGHBORS{101} = [100 110 119 128 129];
+NEIGHBORS{102} = [111 103 92 91];
+NEIGHBORS{103} = [102 111 112 104 93 92];
+NEIGHBORS{104} = [103 112 113 105 94 93];
+NEIGHBORS{105} = [104 113 114 106 95 94];
+NEIGHBORS{106} = [105 114 115 107 96 95];
+NEIGHBORS{107} = [106 115 116 108 97 96];
+NEIGHBORS{108} = [107 116 117 109 98 97];
+NEIGHBORS{109} = [108 117 118 110 99 98];
+NEIGHBORS{110} = [109 118 119 101 100 99];
+
+NEIGHBORS{111} = [120 112 103 102];
+NEIGHBORS{112} = [111 120 121 113 104 103];
+NEIGHBORS{113} = [112 121 122 114 105 104];
+NEIGHBORS{114} = [113 122 123 115 106 105];
+NEIGHBORS{115} = [114 123 124 116 107 106];
+NEIGHBORS{116} = [115 124 125 117 108 107];
+NEIGHBORS{117} = [116 125 126 118 109 108];
+NEIGHBORS{118} = [117 126 127 119 110 109];
+NEIGHBORS{119} = [118 127 128 101 110];
+NEIGHBORS{120} = [133 121 112 111];
+
+NEIGHBORS{121} = [120 133 134 122 113 112];
+NEIGHBORS{122} = [121 134 135 123 114 113];
+NEIGHBORS{123} = [122 135 136 124 115 114];
+NEIGHBORS{124} = [123 136 137 125 116 115];
+NEIGHBORS{125} = [124 137 138 126 117 116];
+NEIGHBORS{126} = [125 138 139 127 118 117];
+NEIGHBORS{127} = [126 139 140 128 119 118];
+NEIGHBORS{128} = [127 140 141 129 101 119];
+NEIGHBORS{129} = [128 141 142 130 101];
+NEIGHBORS{130} = [129 142 143 131 90];
+
+NEIGHBORS{131} = [130 143 144 132 81 90];
+NEIGHBORS{132} = [131 144 185 186 257 81];
+NEIGHBORS{133} = [145 134 121 120];
+NEIGHBORS{134} = [133 145 146 135 122 121];
+NEIGHBORS{135} = [134 146 147 136 123 122];
+NEIGHBORS{136} = [135 147 148 137 124 123];
+NEIGHBORS{137} = [136 148 149 138 125 124];
+NEIGHBORS{138} = [137 149 150 139 126 125];
+NEIGHBORS{139} = [138 150 151 140 127 126];
+NEIGHBORS{140} = [139 151 152 141 128 127];
+
+NEIGHBORS{141} = [140 152 153 142 129 128];
+NEIGHBORS{142} = [141 153 154 143 130 129];
+NEIGHBORS{143} = [142 154 155 144 131 130];
+NEIGHBORS{144} = [143 155 184 185 132 131];
+NEIGHBORS{145} = [146 134 133];
+NEIGHBORS{146} = [145 156 147 135 134];
+NEIGHBORS{147} = [146 156 157 148 136 135];
+NEIGHBORS{148} = [147 157 158 149 137 136];
+NEIGHBORS{149} = [148 158 159 150 138 137];
+NEIGHBORS{150} = [149 159 160 151 139 138];
+
+NEIGHBORS{151} = [150 160 161 152 140 139];
+NEIGHBORS{152} = [151 161 162 153 141 140];
+NEIGHBORS{153} = [152 162 163 154 142 141];
+NEIGHBORS{154} = [153 163 164 155 143 142];
+NEIGHBORS{155} = [154 164 183 184 144 143];
+NEIGHBORS{156} = [165 166 157 147 146];
+NEIGHBORS{157} = [156 166 167 158 148 147];
+NEIGHBORS{158} = [157 167 168 159 149 148];
+NEIGHBORS{159} = [158 168 169 160 150 149];
+NEIGHBORS{160} = [159 169 170 161 151 150];
+
+NEIGHBORS{161} = [160 170 171 162 152 151];
+NEIGHBORS{162} = [161 171 172 163 153 152];
+NEIGHBORS{163} = [162 172 173 164 154 153];
+NEIGHBORS{164} = [163 173 182 183 155 154];
+NEIGHBORS{165} = [174 166 156];
+NEIGHBORS{166} = [165 174 175 167 157 156];
+NEIGHBORS{167} = [166 175 176 168 158 157];
+NEIGHBORS{168} = [167 176 177 169 159 158];
+NEIGHBORS{169} = [168 177 178 170 160 159];
+NEIGHBORS{170} = [169 178 179 171 161 160];
+
+NEIGHBORS{171} = [170 179 180 172 162 161];
+NEIGHBORS{172} = [171 180 181 173 163 162];
+NEIGHBORS{173} = [172 181 182 164 163];
+NEIGHBORS{174} = [187 175 166 165];
+NEIGHBORS{175} = [174 187 188 176 167 166];
+NEIGHBORS{176} = [175 188 189 177 168 167];
+NEIGHBORS{177} = [176 189 190 178 169 168];
+NEIGHBORS{178} = [177 190 191 179 170 169];
+NEIGHBORS{179} = [178 191 192 180 171 170];
+NEIGHBORS{180} = [179 192 193 181 172 171];
+
+NEIGHBORS{181} = [180 193 194 182 173 172];
+NEIGHBORS{182} = [181 194 195 183 164 173];
+NEIGHBORS{183} = [182 195 196 184 155 164];
+NEIGHBORS{184} = [183 196 197 185 144 155];
+NEIGHBORS{185} = [184 197 198 186 132 144];
+NEIGHBORS{186} = [185 198 8 9 257 132];
+NEIGHBORS{187} = [199 188 175 174];
+NEIGHBORS{188} = [187 199 200 189 176 175];
+NEIGHBORS{189} = [188 200 201 190 177 176];
+NEIGHBORS{190} = [189 201 191 178 177];
+
+NEIGHBORS{191} = [190 192 179 178];
+NEIGHBORS{192} = [191 202 193 180 179];
+NEIGHBORS{193} = [192 202 203 194 181 180];
+NEIGHBORS{194} = [193 203 204 195 182 181];
+NEIGHBORS{195} = [194 204 205 196 183 182];
+NEIGHBORS{196} = [195 205 206 197 184 183];
+NEIGHBORS{197} = [196 206 207 198 185 184];
+NEIGHBORS{198} = [197 207 7 8 186 185];
+NEIGHBORS{199} = [208 200 188 187];
+NEIGHBORS{200} = [199 208 209 201 189 188];
+
+NEIGHBORS{201} = [200 209 190 189];
+NEIGHBORS{202} = [210 211 203 193 192];
+NEIGHBORS{203} = [202 211 212 204 194 193];
+NEIGHBORS{204} = [203 212 213 205 195 194];
+NEIGHBORS{205} = [204 213 214 206 196 195];
+NEIGHBORS{206} = [205 214 215 207 197 196];
+NEIGHBORS{207} = [206 215 6 7 198 197];
+NEIGHBORS{208} = [216 209 200 199];
+NEIGHBORS{209} = [208 216 217 201 200];
+NEIGHBORS{210} = [219 220 211 202];
+
+NEIGHBORS{211} = [210 220 221 212 203 202];
+NEIGHBORS{212} = [211 221 222 213 204 203];
+NEIGHBORS{213} = [212 222 223 214 205 204];
+NEIGHBORS{214} = [213 223 224 215 206 205];
+NEIGHBORS{215} = [214 224 5 6 207 206];
+NEIGHBORS{216} = [229 217 209 208];
+NEIGHBORS{217} = [216 229 228 218 209];
+NEIGHBORS{218} = [217 228 227 219];
+NEIGHBORS{219} = [218 227 225 220 210];
+NEIGHBORS{220} = [219 225 226 1 221 211 210];
+
+NEIGHBORS{221} = [220 1 2 222 212 211];
+NEIGHBORS{222} = [221 2 3 223 213 212];
+NEIGHBORS{223} = [222 3 4 224 214 213];
+NEIGHBORS{224} = [223 4 5 215 214];
+NEIGHBORS{225} = [227 231 226 220 219];
+NEIGHBORS{226} = [225 231 230 1 220];
+NEIGHBORS{227} = [228 232 231 225 219 218];
+NEIGHBORS{228} = [229 233 232 227 218 217];
+NEIGHBORS{229} = [233 228 217 216];
+NEIGHBORS{230} = [226 231 235 234];
+
+NEIGHBORS{231} = [232 236 235 230 226 225 227];
+NEIGHBORS{232} = [233 237 236 231 227 228];
+NEIGHBORS{233} = [237 232 228 229];
+NEIGHBORS{234} = [230 235 239 238];
+NEIGHBORS{235} = [236 240 239 234 230 231];
+NEIGHBORS{236} = [240 235 231 232 237];
+NEIGHBORS{237} = [236 232 233];
+NEIGHBORS{238} = [234 239];
+NEIGHBORS{239} = [238 234 235 240];
+NEIGHBORS{240} = [239 235 236];
+
+NEIGHBORS{241} = [244 242];
+NEIGHBORS{242} = [243 245 244 241];
+NEIGHBORS{243} = [246 245 242];
+NEIGHBORS{244} = [241 242 245 248];
+NEIGHBORS{245} = [246 249 248 244 242 243];
+NEIGHBORS{246} = [247 250 249 245 243];
+NEIGHBORS{247} = [251 250 246];
+NEIGHBORS{248} = [244 245 249 252];
+NEIGHBORS{249} = [250 254 253 252 248 245 246];
+NEIGHBORS{250} = [251 255 254 249 246 247];
+
+NEIGHBORS{251} = [256 255 250 247];
+NEIGHBORS{252} = [248 249 253 61 54];
+NEIGHBORS{253} = [252 249 254 67 61];
+NEIGHBORS{254} = [255 73 67 253 249 250];
+NEIGHBORS{255} = [256 82 73 254 250 251];
+NEIGHBORS{256} = [91 82 255 251];
+NEIGHBORS{257} = [9 45 81 132 186];
+
+%% 257 electrodes
+
+neighbors = NEIGHBORS;
+
+for i = 1:length(neighbors)
+   neighbors{i} = neighbors{i}(:); 
+end
+
+if saveOut, cd(outDir); save neighboringElectrodes257.mat neighbors
+end
+
+%% 256 electrodes
+
+neighbors = NEIGHBORS;
+
+% 0 - Electrode(s) to remove
+rm257to256 = [257]; 
+
+% 1 - Remove exluded electrodes from cell array
+neighbors(rm257to256) = []; 
+
+% 2 - Go through remaining electrodes and remove mention of excluded 
+% electrodes from each array in the cell array
+for i = 1:length(neighbors)
+   neighbors{i}(ismember(neighbors{i}, rm257to256)) = []; 
+   
+   % 3 - Ensure each element is a column vector
+   neighbors{i} = neighbors{i}(:);
+   
+      
+   % 4 - No need to do electrode renumbering
+end
+
+if saveOut, cd(outDir); save neighboringElectrodes256.mat neighbors
+end
+
+%% 213 electrodes
+
+neighbors = NEIGHBORS;
+
+load exclude256to212.mat % Works for 257 --> 213 as well
+rm257to213 = exclude256to212; 
+neighbors(rm257to213) = [];
+for i = 1:length(neighbors)
+   neighbors{i}(ismember(neighbors{i}, rm257to213)) = [];
+   neighbors{i} = neighbors{i}(:);
+   neighbors{i} = c257to213(neighbors{i});
+end
+clear rm25* exclude25*
+
+if saveOut, cd(outDir); save neighboringElectrodes213.mat neighbors
+end
+
+%% 212 electrodes
+
+neighbors = NEIGHBORS;
+
+% First remove the vertex
+rm257to256 = [257];
+neighbors(rm257to256) = []; 
+for i = 1:length(neighbors)
+   neighbors{i}(ismember(neighbors{i}, rm257to256)) = []; 
+end
+
+% Then reduce remaining 256 to 212
+load exclude256to212.mat
+rm256to212 = exclude256to212;
+neighbors(rm256to212) = [];
+for i = 1:length(neighbors)
+   neighbors{i}(ismember(neighbors{i}, rm256to212)) = [];
+   neighbors{i} = neighbors{i}(:);
+   neighbors{i} = c256to212(neighbors{i});
+end
+clear rm25* exclude25*
+
+if saveOut, cd(outDir); save neighboringElectrodes212.mat neighbors
+end
+
+%% 195 electrodes
+
+neighbors = NEIGHBORS;
+
+load exclude256to194.mat % Works for 257 --> 195 as well
+rm257to195 = exclude256to194; 
+neighbors(rm257to195) = [];
+for i = 1:length(neighbors)
+   neighbors{i}(ismember(neighbors{i}, rm257to195)) = [];
+   neighbors{i} = neighbors{i}(:);
+   neighbors{i} = c257to195(neighbors{i});
+end
+clear rm25* exclude25*
+
+if saveOut, cd(outDir); save neighboringElectrodes195.mat neighbors
+end
+
+%% 194 electrodes
+
+neighbors = NEIGHBORS;
+
+% First remove the vertex
+rm257to256 = [257];
+neighbors(rm257to256) = []; 
+for i = 1:length(neighbors)
+   neighbors{i}(ismember(neighbors{i}, rm257to256)) = []; 
+end
+
+% Then reduce remaining 256 to 194
+load exclude256to194.mat
+rm256to194 = exclude256to194;
+neighbors(rm256to194) = [];
+for i = 1:length(neighbors)
+   neighbors{i}(ismember(neighbors{i}, rm256to194)) = [];
+   neighbors{i} = neighbors{i}(:);
+   neighbors{i} = c256to194(neighbors{i});
+end
+
+if saveOut, cd(outDir); save neighboringElectrodes194.mat neighbors
+end
