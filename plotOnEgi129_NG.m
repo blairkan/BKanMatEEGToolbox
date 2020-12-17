@@ -51,6 +51,13 @@ if datSz(1)<datSz(2)
     data = data';
 end
 
+%%%%%%%%%%%%%%% New for this version -- marker size %%%%%%%%%%%%%%%%%%%%
+if nargin < 2
+    warning('Marker size not specified. Setting ''msize'' to 10.'); 
+    msize = 10;
+end 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 if size(data,1) == 128
     disp('Doing 128 chan')
     tEpos = load('defaultFlatNet.mat');
