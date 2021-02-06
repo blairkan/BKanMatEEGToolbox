@@ -33,7 +33,7 @@ function multiplotICAResults_ekg(W, xICA, corrV, corrH, badCh, sourceNumbers, pl
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
 % as follows:
 % -------------------------------------------------------------------------
-% Copyright 2020 Blair Kaneshiro
+% Copyright 2021 Blair Kaneshiro
 % 
 % Redistribution and use in source and binary forms, with or without
 % modification, are permitted provided that the following conditions are met:
@@ -77,8 +77,14 @@ if length(sourceNumbers) > 6
 end
 
 %%%% Load the .sfp file and remove bad channel locations if necessary %%%%
-sfpFn = '/usr/ccrma/media/projects/jordan/Analysis/locfiles/Hydrocel GSN 128 1.0.sfp';
-locs = readlocs(sfpFn);
+try
+    sfpFn = '/usr/ccrma/media/projects/jordan/Analysis/locfiles/Hydrocel GSN 128 1.0.sfp';
+    locs = readlocs(sfpFn);
+catch
+%     addpath(genpath('/Users/blair/Dropbox/Matlab/Misc EEG/'))
+    sfpFn = '/Users/blair/Dropbox/Matlab/Misc EEG/Hydrocel GSN 128 1.0.sfp';
+    locs = readlocs(sfpFn);
+end
 locs = locs(4:127);
 % toPlot = [toPlot; 2];  % FOR TESTING THE FUNCTION
 % Remove coordinates for bad channels

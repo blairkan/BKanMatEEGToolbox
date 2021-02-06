@@ -102,6 +102,7 @@ function [xOut, fsOut] = doTrioFilter(xIn, fsIn, highpassHz, notchHz, D, doPlots
 
 %%%%% Begin function
 % Need to remove this path due to inclusion of filters
+warning(['filtfilt function: ' which('filtfilt')])
 rmpath(genpath('/usr/ccrma/media/jordan/Analysis/eeglab11_0_5_4b/functions/octavefunc/signal/'));
 
 verbosePlot = 0; % For debugging only
