@@ -1,5 +1,5 @@
 function [d, permMean, permStd] = permTestEffectSize(observedValue, nullDistr, printNull)
-% [d, permMean, permStd] = permTestEffectSize(mObs, mPerm)
+% [d, permMean, permStd] = permTestEffectSize(observedValue, nullDistr, printNull)
 % ---------------------------------------------------------
 % Blair - October 12, 2021
 %
