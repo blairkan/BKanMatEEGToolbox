@@ -1,4 +1,4 @@
-function [d, permMean, permStd] = permTestEffectSize(mObs, mPerm, dispLen)
+function [d, permMean, permStd] = permTestEffectSize(observedValue, nullDistr, printNull)
 % [d, permMean, permStd] = permTestEffectSize(mObs, mPerm)
 % ---------------------------------------------------------
 % Blair - October 12, 2021
@@ -10,13 +10,13 @@ function [d, permMean, permStd] = permTestEffectSize(mObs, mPerm, dispLen)
 %       d = (m_observed - m_null) / sd_null
 %
 % INPUTS (required)
-% - mObs: The observed value, e.g., the group-averaged ISC using intact
-%   data.
-% - mPerm: The null distribution of mObs. For instance, a vector of 1,000
-%   group-averaged ISC values computed using surrogate data.
+% - observedValue: The observed value, e.g., the group-averaged ISC using 
+%   intact data.
+% - nullDistr: The null distribution of mObs. For instance, a vector of 
+%   1,000 group-averaged ISC values computed using surrogate data.
 %
 % INPUTS (optional)
-% - dispLen: Whether to print a message of the size of the null
+% - printNull: Whether to print a message of the size of the null
 %   distribution. If not entered or empty, will default to FALSE.
 %
 % OUTPUTS
@@ -31,23 +31,26 @@ assert(nargin >= 2, ...
     'Two inputs are required: The observed value, and the null distribution of the observed value.')
 
 % There should be no missing values in the null distribution
-assert(~any(isnan(mPerm(:))), ...
-    'Null distribution input should not contain missing values!')
+if any(isnan(nullDistr(:)))
+    nNan = sum(isnan(nullDistr(:)));
+    warning(['Ignoring ' num2str(nNan) ' NaN(s) in null distribution.'])
+    nullDistr = nullDistr(~isnan(nullDistr))
+end
 
 % For now, the second input must be a vector (only one null distribution)
-assert(isvector(mPerm), ...
+assert(isvector(nullDistr), ...
     'Null distribution input must be a vector.')
 
-if nargin < 3 || isempty(dispLen)
-    dispLen = 0; end
+if nargin < 3 || isempty(printNull)
+    printNull = 0; end
 
 % Print the size of the null distribution
-if dispLen
-    disp(['Calculating effect size over a null distribution of size ' num2str(length(mPerm))])
+if printNull
+    disp(['Calculating effect size over a null distribution of size ' num2str(length(nullDistr)) '.'])
 end
 
 %% Calculate effect size
 
-permMean = mean(mPerm);
-permStd = std(mPerm);
-d = (mObs - permMean) / permStd;
+permMean = mean(nullDistr);
+permStd = std(nullDistr);
+d = (observedValue - permMean) / permStd;
