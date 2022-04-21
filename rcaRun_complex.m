@@ -107,6 +107,7 @@ switch ndims(sumXX)
 end
 
 % NEW - force the covariance matrices to be symmetric
+disp('~ * ~ * Symmetrizing covariance matrices * ~ * ~')
 Rxx = (Rxx + Rxx.')/2;
 Ryy = (Ryy + Ryy.')/2;
 Rxy = (Rxy + Rxy.')/2;
