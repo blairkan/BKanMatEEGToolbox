@@ -1,4 +1,4 @@
-function fIdx = computeFFTBinsSelectedFrequencies(fAx, fUse, rtnAll)
+function fIdx = getFFTBinsSelectedFrequencies(fAx, fUse, rtnAll)
 % fIdx = computeFFTBinsSelectedFrequencies(fAx, fUse, rtnAll)
 % -------------------------------------------------------------
 % Creator: Blair Kaneshiro (October 2022)
