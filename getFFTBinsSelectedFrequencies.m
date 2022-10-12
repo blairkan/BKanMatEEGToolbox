@@ -59,4 +59,4 @@ else, thisFIdx2 = [];
 end
 
 % Combine the two
-fIdx = [thisFIdx1(:); thisFIdx2];
+fIdx = [thisFIdx1(:); thisFIdx2(:)];
