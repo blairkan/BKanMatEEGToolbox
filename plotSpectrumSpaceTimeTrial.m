@@ -51,7 +51,7 @@ fAx = computeFFTFrequencyAxis(nTime, fs);
 
 %% Plot the data
 
-h = plot(fAx, XPLOT)
+h = plot(fAx, XPLOT);
 box off; grid on
 if exist('xMax') && ~isempty(xMax), xlim([0 xMax]); end
 if plotAnno
