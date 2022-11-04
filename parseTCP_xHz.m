@@ -2,7 +2,7 @@ function [allTriggers, allOnsets] = parseTCP_xHz(tcpip)
 
 % [allTriggers, allOnsets] = parseTCP_xHz(tcpip)
 % -------------------------------------------
-% Blair - October 6, 2033
+% Blair - October 6, 2022
 % Takes in the evt_ECI_TCPIP_55513 variable and returns two vectors. 
 % - First vector is the trigger labels, as integers. The original format of
 %   the trigger labels in the cell array is assumed to be 'xHz', where 'x'
