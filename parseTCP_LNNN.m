@@ -61,7 +61,7 @@ function [allTriggers, allOnsets] = parseTCP_LNNN(tcpip)
 %   the downsampled onset times by hand from row 2, e.g., round(row2/D).
 
 % Get all the triggers from the first row of TCP
-allTriggers = cell2mat(cellfun(@(x) str2num(x(2:end)), ...
+allTriggers = cell2mat(cellfun(@(x) str2double(x(2:end)), ...
     tcpip(1,:), 'UniformOutput', false));
 
 
