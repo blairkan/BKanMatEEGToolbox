@@ -23,7 +23,8 @@ assert(nargin >= 1, 'At least one input, x, is required.');
 
 % If input is a vector
 if isvector(x)
-    sem = std(x) / sqrt(length(x));
+    s = std(x);
+    l = length(x);
 
 % If input is a matrix
 else
@@ -32,6 +33,8 @@ else
     
     s = std(x, [], dim);
     l = size(x, dim);
-    sem = s / sqrt(l);
     
 end
+
+% Compute SEM
+sem = s / sqrt(l);
