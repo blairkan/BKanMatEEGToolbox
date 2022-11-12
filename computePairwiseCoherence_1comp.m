@@ -81,7 +81,7 @@ if nargin < 5, noverlap = []; end
 % - dataIn is a matrix of size time x nTrials
 % - pIdx is a matrix of size nPairs x 2
 % - allCohere will be a matrix of size freqs x nPairs
-close all
+% close all
 for p = 1:size(pIdx,1)
     currPair = pIdx(p,:);
     disp(['Current pair: ' mat2str(currPair)])
