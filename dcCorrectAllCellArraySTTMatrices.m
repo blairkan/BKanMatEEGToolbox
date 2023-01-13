@@ -36,6 +36,8 @@ cellDC = cell(nRow, nCol);
 for i = 1:nRow
    for j = 1:nCol
        
+       % Current input data: 
+       % STT [space x time x trial] or TST [time x space x trial]
        thisIn = cellIn{i,j};
        
        % If input was TST, permute dimensions to STT
