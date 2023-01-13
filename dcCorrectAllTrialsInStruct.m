@@ -14,7 +14,7 @@ function structDC = dcCorrectAllTrialsInStruct(structIn)
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
 % as follows:
 % -------------------------------------------------------------------------
-% Copyright 2017 Blair Kaneshiro
+% Copyright 2023 Blair Kaneshiro
 % 
 % Redistribution and use in source and binary forms, with or without
 % modification, are permitted provided that the following conditions are met:
@@ -47,5 +47,5 @@ structDC = nan(size(structIn));
 
 for t = 1:nTrials
    currData = squeeze(structIn(:, :, t));
-   structDC(:,:,t) = medianDCCorrect(currData);
+   structDC(:,:,t) = dcCorrect(currData);
 end
