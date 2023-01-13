@@ -2,9 +2,10 @@ function structDC = medianDCCorrectAllTrialsInStruct(structIn)
 % structDC = medianDCCorrectAllTrialsInStruct(structIn)
 % ------------------------------------------------------
 % Blair - April 8, 2017
-% This function takes in a chan-by-time-by-trial song struct, median DC
-% corrects on a single-trial basis, and outputs the data in a data matrix
-% of the same size as the input. Uses nanmedian.
+% This function takes in a chan-by-time-by-trial 3D data matrix (e.g., a 
+% cleaned and aggregated NMED song struct), median DC corrects on a 
+% single-trial basis, and outputs the data in a data matrix of the same 
+% size as the input. Uses nanmedian.
 
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
 % as follows:
