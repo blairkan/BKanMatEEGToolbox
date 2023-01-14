@@ -22,7 +22,7 @@ function cellDC = dcCorrectAllCellArraySTTMatrices(cellIn, permuteInput)
 %   (STT input --> STT output and TST input --> TST output). 
 
 % If permuteInput empty or not empty, set to false.
-if ~exist(permuteInput) || isempty(permuteInput)
+if ~exist('permuteInput') || isempty(permuteInput)
     permuteInput = 0;
 end
 
