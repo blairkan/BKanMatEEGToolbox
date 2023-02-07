@@ -24,7 +24,7 @@ function F = create2DirFeatureToeplitzMatrix(f, delayUse, addIntercept)
 % - F: Feature matrix of size [T x ( length(delayUse) + addIntercept )]
 
 % Function history
-% Adapted from create2DirFeatureToeplitzMatrix Blair 3/9/2018
+% Adapted from createFeatureToeplitzMatrix Blair 3/9/2018
 
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
 % as follows:
