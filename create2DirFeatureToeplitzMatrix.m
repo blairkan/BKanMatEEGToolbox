@@ -1,24 +1,33 @@
-function F = create2DirFeatureToeplitzMatrix(f, delayUse, addIntercept)
-% F = create2DirFeatureToeplitzMatrix(f, delayUse, addIntercept)
-% -------------------------------------------------------------
+function F = create2DirFeatureToeplitzMatrix(f, delayUse, addIntercept, printDebug)
+% F = create2DirFeatureToeplitzMatrix(f, delayUse, addIntercept, printDebug)
+% --------------------------------------------------------------------------
 % Blair - January 26, 2023
 %
 % This function constructs the Toeplitz (convolution) matrix comprising the
-% specified positive and negative delays (i.e., delays and advances) of an
+% specified negative and positive delays (i.e., advances and delays) of an
 % input feature vector.
 %
-% Inputs: 
+% Required inputs: 
 % - f: Feature vector (should be T x 1; will transpose if not)
-% - delayUse: Ordered set of delays to be imposed on the input feature
-%   vector. All values must be integers.
-%   - Positive values reflect POSITIVE delays (by which the column feature 
-%     vector is shifted down).
+% - delayUse: Set of delays by which to shift the input feature vector. 
+%   Shifts will be implemented in whatever order the delays are given.
+%   - All values must be integers to represent sample-wise delays.
 %   - Negative values reflect NEGATIVE delays (by which the column feature
 %     vector is shifted up).
+%   - Positive values reflect POSITIVE delays (by which the column feature 
+%     vector is shifted down).
 %   - If the user wishes to include the 0 time shift, it must be included
 %     in this input.
-% - addIntercept: Whether to additionally include the intercept column
-%   (column of 1s) at the end. If not specified, will default to 1.
+%   - The maximal negative or positive delay should not exceed the length
+%     of the original feature vector, since this would result in columns
+%     equal to zero. If such delays are included, the function will print a
+%     warning.
+%
+% Optional inputs:
+% - addIntercept: Boolean of whether to additionally include the intercept 
+%   column (column of 1s) at the end. If not specified, will default to 1.
+% - printDebug: Boolean of whether to print debug messages in the console. 
+%   If empty or not specified, will detault to 0.
 %
 % Outputs: 
 % - F: Feature matrix of size [T x ( length(delayUse) + addIntercept )]
@@ -57,39 +66,63 @@ function F = create2DirFeatureToeplitzMatrix(f, delayUse, addIntercept)
 % ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 % POSSIBILITY OF SUCH DAMAGE.
 
-%% For debugging - comment out if running as function
-
-% ccc; 
-% f = 1:20;
-% nDelays = 10;
-% addIntercept = 1;
-
-%% Check inputs - uncomment if running as function
+%% Check inputs
 
 % Make sure there are at least 2 inputs
+assert(nargin >= 2, 'FEATURE TOEPLITZ MATRIX: At least 2 inputs are required: Feature vector and vector of delays.')
 
-% Input 1: Make sure the f input is a vector
+% Input 1: Make sure the f input is a vector (not a matrix)
+assert(isvector(f), 'FEATURE TOEPLITZ MATRIX: First input "f" must be a vector.')
 
 % Input 2: Make sure the delayUse input is all integers
+isaninteger = @(x)isfinite(x) & x==floor(x);
+assert(all(isaninteger(delayUse(:))), ...
+    'FEATURE TOEPLITZ MATRIX: All specified delays in second input "delayUse" must be integers.');
 
-% Input 3: If addIntercept is empty or not specified, 
+% Input 3: If addIntercept is empty or not specified, set it to true
+if nargin < 3 || isempty(addIntercept), addIntercept = 1; end
 
+% Input 4: If printDebug is empty or not specified, set it to false
+if nargin < 4 || isempty(printDebug), printDebug = 0; end
 
-
-if nargin < 3, addIntercept = 1; end
-if nargin < 2, error('Toeplitz matrix: Must input both a feature vector and number of delays.'); end
-
-%%
-if ~isvector(f), error('Toeplitz matrix: Input feature vector needs to be a vector.'); end
-f = f(:); T = length(f);
-if delayUse >= T, warning('Toeplitz matrix: Number of delays exceeds length of feature vector; will have full column(s) of zeros.'); end
-
-if addIntercept, disp('Toeplitz matrix: Adding intercept column of 1s.'); end
-
-% Initialize the matrix
-F = nan(T, delayUse+1+addIntercept);
-
-for d = 1:(delayUse+1) % Fill in main body of matrix
-    F(:,d) = [zeros(min(d-1,T),1); f(1:(end-(d-1)))];
+% Make sure the maximal delay does not exceed the length of the feature
+% vector.
+if(any(abs(delayUse) > length(f)))
+   warning('FEATURE TOEPLITZ MATRIX: One or more specified delays exceeds length of input feature vector; output will have full column(s) of zeros.') 
 end
-if addIntercept, F(:, end) = 1; end % Add intercept if requested
+
+%% Create the feature Toeplitz matrix
+
+% Convert input feature vector to column
+f = f(:); 
+
+% Get lengths of feature vector and delays vector
+T = length(f);
+D = length(delayUse);
+
+% Initialize the output matrix
+F = nan(T, D + addIntercept);
+
+%%% Fill in the matrix
+% Fill in shifted vectors one at a time
+for d = 1:D
+    
+    thisDelay = delayUse(d); % Current signed delay
+    thisAbsDelay = abs(thisDelay); % Current abs delay
+    
+    if thisDelay < 0 % Neg val => advance (shift up)
+        F(:, d) = [f(thisAbsDelay+1:end); zeros(min(thisAbsDelay, T), 1)];
+    else             % Nonneg val ==> delay (shift down) or no delay
+        F(:, d) = [zeros(min(thisAbsDelay, T), 1); f(1:end-thisAbsDelay)];   
+    end
+    
+    clear this*
+end
+
+% If intercept column is requested, add it
+if addIntercept
+    
+    if printDebug, disp('FEATURE TOEPLITZ MATRIX: Adding intercept column of 1s.'); end
+    F(:, end) = 1;
+
+end
