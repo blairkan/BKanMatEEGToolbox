@@ -42,6 +42,7 @@ for i=1:length(susChannels)
     eval(expr)
     plot(x129epoched(susChannels(i),:), 'r'); hold on;
     plot(x129epoched(refChannel,:), 'b'); hold on;
-    title(sprintf('%s -- refCh: %d in blue; susCh: %d in red', fnOut, refChannel, susChannels(i)));
+    title(sprintf('%s -- refCh: %d in blue; susCh: %d in red', fnOut, refChannel, susChannels(i)), ...
+        'interpreter', 'none');
 end
 
