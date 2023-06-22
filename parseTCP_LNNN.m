@@ -5,8 +5,8 @@ function [allTriggers, allOnsets] = parseTCP_LNNN(tcpip)
 % Blair - November 4, 2022
 % Takes in the evt_ECI_TCPIP_55513 variable and returns two vectors. 
 % - First vector is the trigger labels, as integers. The original format of
-%   the trigger labels in the cell array is assumed to be 'xHz', where 'x'
-%   is an integer. Examples: '3Hz ' (yes with the space), '10Hz'.
+%   the trigger labels in the cell array is assumed to be 1 letter followed
+%   by 3 numbers. Example: 'S001'
 % - Second vector is all onsets at the original sampling rate (usually 
 %   1 kHz). 
 % Both returned vectors are in column form.
