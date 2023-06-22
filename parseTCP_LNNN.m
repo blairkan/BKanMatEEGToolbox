@@ -2,7 +2,7 @@ function [allTriggers, allOnsets] = parseTCP_LNNN(tcpip)
 
 % [allTriggers, allOnsets] = parseTCP_LNNN(tcpip)
 % -------------------------------------------
-% Blair - November 4, 2022
+% Blair - June 22, 2023
 % Takes in the evt_ECI_TCPIP_55513 variable and returns two vectors. 
 % - First vector is the trigger labels, as integers. The original format of
 %   the trigger labels in the cell array is assumed to be 1 letter followed
