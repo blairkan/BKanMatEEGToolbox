@@ -54,8 +54,9 @@ phaseRandomized = -pi + 2*pi * rand(T/2-1,1); % Generate random phase
 responseRandomized(2:T/2,:) = amplitude(2:T/2,:) .* exp(sqrt(-1) * (phase(2:T/2,:) + repmat(phaseRandomized,1,nChannels))); % randomize the phase
 response = ifft([responseFFT(1,:); responseRandomized(2:T/2,:); responseFFT(T/2+1,:); conj(responseRandomized(T/2:-1:2,:))]); % rearrange  freq
 
-% Here, zero padding means we add a row of zeros at the end
+% Address input with odd number of time samples
 if zeroPad
+    %     % Add zeros as final time sample
     %     response=[response;zeros(1,nChannels)]; % RM 2023-07-22
     
     % NEW 2023-07-22: Repeat final row (avoids large discontinuity)
