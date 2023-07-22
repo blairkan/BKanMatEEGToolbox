@@ -2,38 +2,38 @@ function response=surrogateResponseGenerator(response)
 % response=surrogateResponseGenerator(response)
 % --------------------------------------------------------
 % This function takes in a time x chan(comp) matrix and returns a
-% phase-scrambled version of the data. 
+% phase-scrambled version of the data.
 % From Jacek - April 3, 2017
 
-% This software is licensed under the 3-Clause BSD License (New BSD License), 
+% This software is licensed under the 3-Clause BSD License (New BSD License),
 % as follows:
 % -------------------------------------------------------------------------
 % Copyright 2017 Jacek P. Dmochowski
-% 
+%
 % Redistribution and use in source and binary forms, with or without
 % modification, are permitted provided that the following conditions are met:
-% 
-% 1. Redistributions of source code must retain the above copyright notice, 
+%
+% 1. Redistributions of source code must retain the above copyright notice,
 % this list of conditions and the following disclaimer.
-% 
-% 2. Redistributions in binary form must reproduce the above copyright notice, 
-% this list of conditions and the following disclaimer in the documentation 
+%
+% 2. Redistributions in binary form must reproduce the above copyright notice,
+% this list of conditions and the following disclaimer in the documentation
 % and/or other materials provided with the distribution.
-% 
-% 3. Neither the name of the copyright holder nor the names of its 
-% contributors may be used to endorse or promote products derived from this 
+%
+% 3. Neither the name of the copyright holder nor the names of its
+% contributors may be used to endorse or promote products derived from this
 % software without specific prior written permission.
-% 
+%
 % THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ?AS IS?
-% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
-% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
-% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
-% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
-% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
-% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 % POSSIBILITY OF SUCH DAMAGE.
 
 T = size(response,1); % Time is the number of rows
@@ -56,5 +56,8 @@ response = ifft([responseFFT(1,:); responseRandomized(2:T/2,:); responseFFT(T/2+
 
 % Here, zero padding means we add a row of zeros at the end
 if zeroPad
-    response=[response;zeros(1,nChannels)];
+    %     response=[response;zeros(1,nChannels)]; % RM 2023-07-22
+    
+    % NEW 2023-07-22: Repeat final row (avoids large discontinuity)
+    response = [response; response(end, :)];
 end
