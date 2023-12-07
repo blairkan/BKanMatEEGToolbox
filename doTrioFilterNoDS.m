@@ -228,8 +228,8 @@ FSPECS.lpType = sFilt;
 if doPlots
     %%% Time domain - Raw data
     figure(200)
-    tAx = linspace(0, 15, 15*fs);
-    % Plot first and last 15 secs of data w/ zero padding
+    tAx = (0:(15*fs-1)) / fs; % Updated 12/6/2023
+    % Plot first and last 15 secs of data
     subplot(4, 2, 1)
     plot(tAx,xIn(:,1:(15*fs))'); grid on; axis tight
     title('First 15 secs of raw data')
@@ -256,19 +256,20 @@ if doPlots
     figure(201)
     %%% Frequency domain - full output FFT range
     % Do output first to get ylim
-    fAx = linspace(0, fs, size(xIn,2));
+    fAx = computeFFTFrequencyAxis(size(xIn,2), fs); % Updated 12/6/2023
     XOUT = abs(fft(xOut'));
     subplot 413
-    plot(fAx, XOUT); grid on; xlim([0 lpHz * 1.25])
+    plot(fAx, XOUT); grid on; xlim([0 lpHz*1.25])
     ylOut = ylim;
     title(['Filtered data - ' sFilt], 'fontsize', fSize)
-    % Input
+    % Now plot the raw data in the top part of the figure
     XIN = abs(fft(xIn'));
     subplot 411
-    plot(fAx, XIN); grid on; xlim([0 lpHz * 1.25]); ylim(ylOut)
+    plot(fAx, XIN); grid on; xlim([0 lpHz*1.25]); ylim(ylOut)
     title('Raw data', 'fontsize', fSize)
     
     %%% Frequency domain - frequencies of interest
+    % Raw data
     subplot 434
     plot(fAx, XIN); grid on; xlim(xlim_highpass)
     title(['HP: ' num2str(hpHz) 'Hz'])
@@ -279,6 +280,7 @@ if doPlots
     plot(fAx, XIN); grid on; xlim(xlim_lowpass)
     title(['LP: ' num2str(lpHz) 'Hz'])
     
+    % Filtered data
     subplot(4, 3, 10)
     plot(fAx, XOUT); grid on; xlim(xlim_highpass)
     title(['HP: ' num2str(hpHz) 'Hz'])
