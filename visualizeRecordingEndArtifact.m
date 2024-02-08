@@ -68,5 +68,5 @@ for i = 1:nSecVis
     ylabel('Amplitude (\muV)')
 end
 
-if ~isempty(sgt), sgtitle(sgt); end
+if ~isempty(sgt), sgtitle(sgt, 'interpreter', 'none'); end
 
