@@ -128,9 +128,11 @@ end
 
 %% FILTER 1: Highpass filter - 8th order Butterworth
 
+disp([newline 'Highpass filtering at ' num2str(hpHz) ' Hz...'])
+
 % Input filter order is 4. Doubled by filtfilt --> 8
 [bHighpass,aHighpass] = butter(4, hpHz * 2/fs, 'high');
-disp('Highpass filtering...')
+
 xHighpass = nan(size(xIn));
 for i = 1:nRow
     xHighpass(i,:) = filtfilt(bHighpass, aHighpass, xIn(i,:)); % Zero phase
@@ -157,13 +159,12 @@ FSPECS.aHighpass = aHighpass;
 
 %% FILTER 2: Notch filter - 8th order Butterworth
 
+disp(['Notch filtering from ' num2str(nHz(1)) ' Hz to ' num2str(nHz(2)) ' Hz...'])
+
 % Input filter order is 2. Doubled by notch, doubled by filtfilt --> 8
 [bNotch, aNotch] = butter(2, [nHz] * 2/fs, 'stop');
 
-% Initialize the output data matrix
 xNotch = nan(size(xHighpass));
-
-disp('Notch filtering...')
 for i = 1:nRow
     xNotch(i,:) = filtfilt(bNotch, aNotch, xHighpass(i,:));
 end
@@ -189,28 +190,37 @@ FSPECS.aNotch = aNotch;
 
 %% FILTER 3: Lowpass - 16th order Chebyshev
 
-% Input filter order is 8. Doubled by filtfilt --> 16
-lowpassRipple = 0.05; % Passband ripple, inDB
-[bLowpass, aLowpass] = cheby1(8, lowpassRipple, lpHz * 2/fs); % Lowpass by default
-sFilt = 'Chebyshev I';
-FSPECS.lowpassRipple = lowpassRipple;
+% For now we are using the 16th order Chebyshev I filter to change as 
+% little as possible from the previous pipeline which used the 'decimate'
+% function. Later we should consider an improved filter. 
 
-% Here's an 8th order Butterworth instead
+sFilt = 'Chebyshev I';
+disp(['Lowpass filtering (' sFilt ') at ' num2str(lpHz) ' Hz...'])
+
+% Input filter order is 8. Doubled by filtfilt --> 16
+lowpassPassbandRipple = 0.05; % Passband ripple, inDB
+[bLowpass, aLowpass] = cheby1(8, lowpassPassbandRipple, lpHz * 2/fs); % Lowpass by default
+
+% Check for numerator condition that decimate checks for
+if all(bLowpass==0) 
+    error('Lowpass filter issue! Check decimate for alternative implementation.'); 
+end
+
+% For later: Here's an 8th order Butterworth instead
 % [bLowpass, aLowpass] = butter(8, lpHz * 2/fs); % Lowpass by default
 % sFilt = 'Butterworth';
 % [z, p, k] = butter(8, lpHz * 2/fs);
 % sos = zp2sos(z, p, k);
 
-figure(500)
-freqz(bLowpass, aLowpass, 0:.1:100, fs);
-sgtitle(sFilt)
-subplot 211; xlim([0 100]); ylim([-80 10])
-subplot 212; xlim([0 100]); ylim([-800 0])
+% figure(500)
+% freqz(bLowpass, aLowpass, 0:.1:100, fs);
+% sgtitle(sFilt)
+% subplot 211; xlim([0 100]); ylim([-80 10])
+% subplot 212; xlim([0 100]); ylim([-800 0])
 % hfvt = fvtool(bLowpass, aLowpass, sos, 'FrequencyScale', 'log');
 % legend(hfvt,'TF Design','ZPK Design')
 
 xLowpass = nan(size(xNotch));
-disp('Lowpass filtering...')
 for i = 1:nRow
    xLowpass(i,:) = filtfilt(bLowpass, aLowpass, xNotch(i,:)); 
 end
@@ -220,6 +230,7 @@ disp('Done.')
 xOut = xLowpass;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+FSPECS.lowpassPassbandRipple = lowpassPassbandRipple;
 FSPECS.bLowpass = bLowpass;
 FSPECS.bHighpass = bHighpass;
 FSPECS.lpType = sFilt;
