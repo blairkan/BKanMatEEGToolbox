@@ -23,7 +23,7 @@ function visualizeRecordingEndings(varStr, inDir, fNames, doDCCorr, nMsec, fs, s
 % - sgt: String to display as the sgtitle of the plot along with function-
 %   specified string with information about nMsec and doDCCorr. If empty or
 %   not specified, only the function-specified string will be shown.
-% - fSize: Font size. If empty or not specified, will default to 12 for
+% - fSize: Font size. If empty or not specified, will default to 10 for
 %   subplots. sgtitle will be 2*fSize.
 
 %% Verify the inputs
@@ -59,7 +59,7 @@ if nargin < 7 || isempty(sgt), sgtt = sgtbase;
 else, sgtt = [sgt ': ' sgtbase]; end
 
 % Input 8: fSize
-if nargin < 8 || isempty(fSize), fSize = 12; end
+if nargin < 8 || isempty(fSize), fSize = 10; end
 
 %% Make the plot
 
