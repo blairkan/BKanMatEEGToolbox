@@ -9,9 +9,9 @@ function dt = thisDateTime()
 %
 % Output: 
 % - dt: Character array of the current date and time. The format is as if 
-%   the datestr function was called with 'yyyymmdd_HHMM'. The time is in
-%   the local time zone. 
+%   the (now deprecated) datestr function were called with output format 
+%   'yyyymmdd_HHMM'. Output is given in the user's local time zone.
 %
-% See also: datestr
+% See also: datestr, datetime
 
 dt = char(datetime('now', 'TimeZone', 'local', 'Format', 'yyyyMMdd_HHmm'));
