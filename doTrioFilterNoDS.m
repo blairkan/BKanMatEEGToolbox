@@ -235,22 +235,28 @@ FSPECS.bLowpass = bLowpass;
 FSPECS.bHighpass = bHighpass;
 FSPECS.lpType = sFilt;
 
-%%
+%% Plot the data if requested 
+
 if doPlots
+
+    %%% New 2/15/2024: Input data will be DC corrected first!
+    xInPlot = dcCorrect(xIn);
+
     %%% Time domain - Raw data
     figure(200)
     tAx = (0:(15*fs-1)) / fs; % Updated 12/6/2023
     % Plot first and last 15 secs of data
     subplot(4, 2, 1)
-    plot(tAx,xIn(:,1:(15*fs))'); grid on; axis tight
+    plot(tAx,xInPlot(:,1:(15*fs))'); grid on; axis tight
     title('First 15 secs of raw data')
     subplot(4, 2, 2)
-    plot(tAx,xIn(:,(end-(15*fs)+1):end)'); grid on; axis tight
+    plot(tAx,xInPlot(:,(end-(15*fs)+1):end)'); grid on; axis tight
     title('Last 15 secs of raw data')
     % Plot the full raw data
     subplot(4, 1, 2)
-    plot(xIn'); grid on; axis tight
+    plot(xInPlot'); grid on; axis tight
     title('Full data frame - raw')
+    
     %%% Time doman - Filtered data
     subplot(4, 2, 5)
     plot(tAx,xOut(:,1:(15*fs))');
@@ -267,14 +273,14 @@ if doPlots
     figure(201)
     %%% Frequency domain - full output FFT range
     % Do output first to get ylim
-    fAx = computeFFTFrequencyAxis(size(xIn,2), fs); % Updated 12/6/2023
+    fAx = computeFFTFrequencyAxis(size(xInPlot,2), fs); % Updated 12/6/2023
     XOUT = abs(fft(xOut'));
     subplot 413
     plot(fAx, XOUT); grid on; xlim([0 lpHz*1.25])
     ylOut = ylim;
     title(['Filtered data - ' sFilt], 'fontsize', fSize)
     % Now plot the raw data in the top part of the figure
-    XIN = abs(fft(xIn'));
+    XIN = abs(fft(xInPlot'));
     subplot 411
     plot(fAx, XIN); grid on; xlim([0 lpHz*1.25]); ylim(ylOut)
     title('Raw data', 'fontsize', fSize)
