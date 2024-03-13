@@ -112,8 +112,8 @@ for i = 1:nFiles
     load([inDir filesep thisFnIn], 'xRaw');
 
     % Call doICA function on the xRaw variable
-    % W = doICA(xRaw);
-    W = i;
+    W = doICA(xRaw);
+    % W = i;      % For testing
 
     % Save W to an output .mat file
     thisFnOut = [thisFnIn(1:end-4) '_W.mat'];
