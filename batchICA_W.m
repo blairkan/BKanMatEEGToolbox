@@ -123,3 +123,5 @@ for i = 1:nFiles
     clear this* xRaw W
 
 end
+
+disp([newline '~*~*~ batchICA_W: Function call complete ~*~*~'])
