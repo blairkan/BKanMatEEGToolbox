@@ -31,9 +31,8 @@ yl = get(gca, 'ylim');
 grayCol = [.5 .5 .5];
 for i = 1:length(vertLinePos)
     hold on
-    plot(vertLinePos(i) * ones(1,2), yl, ...
-        'color', grayCol, 'linewidth', 2);
+    xline(vertLinePos(i), 'color', grayCol, 'linewidth', 1.5);
 end
 
-% Move the data overlay to the top
+% Move data to top (doesn't seem to be quite doing this...) 
 uistack(p, 'top');
