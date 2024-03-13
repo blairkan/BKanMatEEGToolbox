@@ -28,12 +28,11 @@ box off;
 
 % If specified, plot the vertical lines
 yl = get(gca, 'ylim');
-grayCol = [.2 .2 .2];
+grayCol = [.5 .5 .5];
 for i = 1:length(vertLinePos)
-    i
     hold on
     plot(vertLinePos(i) * ones(1,2), yl, ...
-        'color', grayCol, 'linewidth', 1);
+        'color', grayCol, 'linewidth', 2);
 end
 
 % Move the data overlay to the top
