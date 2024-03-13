@@ -7,7 +7,7 @@ function batchICA(matDir)
 % in the .mat file, performs runica on the xRaw variable in each .mat
 % file, and writes out the W matrix in the W sub-directory.
 %
-% See also batchCellICA doICA doCellICA
+% See also batchICA_W batchCellICA doICA doCellICA
 
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
 % as follows:
