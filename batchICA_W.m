@@ -1,13 +1,28 @@
 function batchICA_W(matDir)
-
-% batchICA(matDir)
+% batchICA_W(matDir)
 % --------------------
-% Blair - May 9, 2014
-% Run ICA on all .mat files in the specified directory. The function reads
-% in the .mat file, performs runica on the xRaw variable in each .mat
-% file, and writes out the W matrix in the W sub-directory.
+% Blair - March 13, 2024
 %
-% See also batchCellICA doICA doCellICA
+% This function runs ICA on all .mat files in the specified directory and
+% saves the resulting W matrices: 
+% - Gets list of input filenames in the specified directory, excluding
+%   filenames that already end in '_W' (since those are presumably output 
+%   files). 
+% - For every input .mat file, load the file, compute ICA using the 'xRaw' 
+%   variable, and save the resulting W matrix in an output file. The output
+%   file has the same name as the input file, with '_W' appended to the end
+%   of the filename.
+%
+% This function is similar to batchICA but not the same. Main changes:
+% - References files via full path specification rather than cd-ing in.
+% - Saves output files in same directory; does not create 'W' subdirectory.
+% - Output filenames (containing only 'W' matrix) have '_W' appended to the
+%   end rather than being identical to the input filenames.
+%
+% See also batchICA batchCellICA doICA doCellICA
+
+% Script history
+% - 3/13/2024: Adapted from batchICA (5/9/2014)
 
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
 % as follows:
