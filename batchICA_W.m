@@ -108,14 +108,14 @@ for i = 1:nFiles
     disp([newline '~*~*~ Processing file ' num2str(i) ' of ' num2str(nFiles) ...
         ': ' thisFnIn ' ~*~*~'])
     
-    % Load the xRaw variable in the current file
+    % Load *only* the xRaw variable in the current file
     load([inDir filesep thisFnIn], 'xRaw');
 
     % Call doICA function on the xRaw variable
     W = doICA(xRaw);
     % W = i;      % For testing
 
-    % Save W to an output .mat file
+    % Save *only* the W variable to an output .mat file in same directory
     thisFnOut = [thisFnIn(1:end-4) '_W.mat'];
     save([inDir filesep thisFnOut], 'W')
     
