@@ -1,10 +1,10 @@
-function [pctOverThresh, iMatrix] = computeMatrixPctOverThresh(xIn, thresh)
-% [pctOverThresh, iMatrix] = computeMatrixPctOverThresh(xIn, thresh)
+function [pctOverThresh, iMatrix] = computePerChannelPctOverThresh(xIn, thresh)
+% [pctOverThresh, iMatrix] = computePerChannelPctOverThresh(xIn, thresh)
 % -------------------------------------------------
 % Blair - March 19, 2024
 %
 % This matrix computes the percent of (magnitude) values in a matrix that
-% are over a specified threshold. 
+% are over a specified threshold, on a per-channel (row) basis. 
 %
 % Inputs (required)
 % - xIn: A data matrix. The input data are assumed to be space x time since
