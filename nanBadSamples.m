@@ -1,6 +1,6 @@
-function Xout = nanBadSamples(X,P,Q,zero,xtent)
+function [Xout, pctNaNPerIter] = nanBadSamples(X,P,Q,zero,xtent)
 
-% Xout = nanBadSamples(X, P, Q, zero, xtent)
+% [Xout, pctNaNPerIter] = nanBadSamples(X, P, Q, zero, xtent)
 % ----------------------------------------
 % Recommended inputs (Jacek - May 2014):
 %   X = the data (channels x time)
@@ -52,7 +52,13 @@ if size(X,1) > size(X<2)
     X=X.'; 
 end % electrodes in row dimension
 
-for p=1:P % For every NBS iteration
+% Init 2nd output variable
+pctNaNPerIter = nan(1, P);
+
+% Perform NBS iterations
+for p=1:P 
+    
+    % Iterate through the electrodes
     for ch=1:size(X,1) % For every electrode (row) in X
         gind=find(~isnan(X(ch,:)));
         mustd=std(X(ch,gind));
@@ -67,7 +73,10 @@ for p=1:P % For every NBS iteration
             X(ch,find(mask))=NaN;            
         end        
     end
-    sum(isnan(X(:)))/length(X(:))
+    
+    % Fill in pct NaNPerIter for this iteration
+    pctNaNPerIter(p) = 100 * sum(isnan(X(:)))/length(X(:));
+
 end
 
 Xout=X;
