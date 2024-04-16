@@ -54,7 +54,7 @@ saveas(h, [pathOut filesep fnOut])
 
 % Print message if specified
 if printMsg
-    disp(['- * Saved ' fnOut ' * -'])
+    disp(['\ * \ Saved ' fnOut ' / * /'])
 end
 
 
