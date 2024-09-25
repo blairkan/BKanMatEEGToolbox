@@ -1,5 +1,5 @@
-function visualizeRecordingEndings(varStr, inDir, fNames, doDCCorr, nMsec, fs, sgt, fSize)
-% visualizeRecordingEndings(varStr, inDir, fNames, doDCCorr nMsec, fs, sgt, fSize)
+function visualizeRecordingEndings(varStr, inDir, fNames, doDCCorr, nMsec, fs, sgt, fSize, figVisibility)
+% visualizeRecordingEndings(varStr, inDir, fNames, doDCCorr nMsec, fs, sgt, fSize, figVisibility)
 % -------------------------------------------------------------------------
 % Blair - Feb 15, 2024
 %
@@ -61,9 +61,12 @@ else, sgtt = [sgt ': ' sgtbase]; end
 % Input 8: fSize
 if nargin < 8 || isempty(fSize), fSize = 10; end
 
+% Input 9: Figure visibility
+if nargin < 9 || isempty(figVisibility), figVisibility = 'on'; end
+
 %% Make the plot
 
-figure()
+figure('Visible', figVisibility)
 tcl = tiledlayout ('flow');
 visSamp = nMsec * fs / 1000; % Dimensional analysis
 
