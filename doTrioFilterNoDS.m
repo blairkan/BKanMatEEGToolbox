@@ -264,7 +264,7 @@ if doPlots
     xInPlot = dcCorrect(xIn);
 
     %%% Time domain - Raw data
-    set(0,'CurrentFigure',tdFigH)
+    set(0,'CurrentFigure',tdFigH) % Time-domain figure handle
     tAx = (0:(15*fs-1)) / fs; % Updated 12/6/2023
     % Plot first and last 15 secs of data
     subplot(4, 2, 1)
@@ -292,7 +292,7 @@ if doPlots
     title(['Full data frame - filtered - ' sFilt])
     
     %%% Frequency domain - full output FFT range
-    set(0,'CurrentFigure',fdFigH)
+    set(0,'CurrentFigure',fdFigH) % Frequency-domain figure handle
     % Do output first to get ylim
     fAx = computeFFTFrequencyAxis(size(xInPlot,2), fs); % Updated 12/6/2023
     XOUT = abs(fft(xOut'));
