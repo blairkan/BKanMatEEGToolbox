@@ -252,7 +252,8 @@ if doPlots
     xInPlot = dcCorrect(xIn);
 
     %%% Time domain - Raw data
-    figure(200, 'Visible', figVisibility)
+    f200 = figure(200);
+    f200.Visible = figVisibility;
     tAx = (0:(15*fs-1)) / fs; % Updated 12/6/2023
     % Plot first and last 15 secs of data
     subplot(4, 2, 1)
@@ -279,7 +280,8 @@ if doPlots
     plot(xOut'); grid on; axis tight
     title(['Full data frame - filtered - ' sFilt])
     
-    figure(201, 'Visible', figVisibility)
+    f201 = figure(201);
+    f201.Visible = figVisibility;
     %%% Frequency domain - full output FFT range
     % Do output first to get ylim
     fAx = computeFFTFrequencyAxis(size(xInPlot,2), fs); % Updated 12/6/2023
