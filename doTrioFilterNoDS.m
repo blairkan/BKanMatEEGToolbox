@@ -1,18 +1,22 @@
-function [xOut, FSPECS] = doTrioFilterNoDS(xIn, fs, hpHz, nHz, lpHz, doPlots)
-% [xOut, FSPECS] = doTrioFilter(xIn, fsIn, hpHz, [nHz], lpHz, doPlots)
+function [xOut, FSPECS] = doTrioFilterNoDS(xIn, fs, hpHz, nHz, lpHz, doPlots, figVisibility)
+% [xOut, FSPECS] = doTrioFilter(xIn, fsIn, hpHz, [nHz], lpHz, doPlots, figVisibility)
 % --------------------------------------------------------------------------
 % Blair - December 2023
 %
 % This function does notch, highpass, and lowpass filtering for
 % preprocessing of EGI data. It does not downsample the data. 
 %
-% Inputs
+% Required inputs
 % - xIn: Channels-by-time data frame (full recording, not epoch, preferred)
 % - fs: Sampling rate of the input data, in Hz
 % - hpHz: Cutoff frequency for the highpass filter, in Hz
 % - [nHz]: Low and high freqs for notch filter, in Hz (vector of length 2)
 % - lpHz: Cutoff frequency for the lowpass filter, in Hz.
+%
+% Optional inputs
 % - doPlot: Boolean of whether to plot the results (default = 1)
+% - figVisibility: Whether the main figures, if rendered, should be made 
+%   visible (default = 'on')
 %
 % Outputs
 % - xOut: The channels-by-time-filtered data frame
@@ -93,10 +97,15 @@ assert(isequal(...
 
 %% Figure init stuff 
 verbosePlot = 0; % For debugging only
-if nargin < 6
+
+% Input 6: Whether to plot results
+if nargin < 6 || isempty(doPlots)
     disp('Doing plots by default.')
     doPlots = 1;
 end
+
+% Input 7: Whether main plots, if rendered, should be visible
+if nargin < 7 || isempty(figVisibility), figVisibility = 'on'; end
 
 nRow = size(xIn, 1); % How many electrodes are we dealing with
 disp(['Number of electrodes: ' num2str(nRow)])
@@ -243,7 +252,7 @@ if doPlots
     xInPlot = dcCorrect(xIn);
 
     %%% Time domain - Raw data
-    figure(200)
+    figure(200, 'Visible', figVisibility)
     tAx = (0:(15*fs-1)) / fs; % Updated 12/6/2023
     % Plot first and last 15 secs of data
     subplot(4, 2, 1)
@@ -270,7 +279,7 @@ if doPlots
     plot(xOut'); grid on; axis tight
     title(['Full data frame - filtered - ' sFilt])
     
-    figure(201)
+    figure(201, 'Visible', figVisibility)
     %%% Frequency domain - full output FFT range
     % Do output first to get ylim
     fAx = computeFFTFrequencyAxis(size(xInPlot,2), fs); % Updated 12/6/2023
@@ -331,30 +340,6 @@ if verbosePlot
     plot(fAxDec, temp); grid on; xlim(xlim_lowpass)
     toc
 end
-%%%% End function
-% %% Save the figures
-% cd(figDir)
-% if doPlots
-%     figure(100)
-%     set(gcf, 'PaperPosition', [0 0 14 12]);
-%     fnOut = [subStr '_trioFilter_timeDomain_' ...
-%         datestr(now, 'yyyymmdd')];
-%     saveas(gcf, [fnOut '.png'])
-%
-%     figure(101)
-%     set(gcf, 'PaperPosition', [0 0 14 12]);
-%     fnOut = [subStr '_trioFilter_freqDomain_' ...
-%         datestr(now, 'yyyymmdd')];
-%     saveas(gcf, [fnOut '.png'])
-% end
-%
-% if verbosePlot
-%     figure(102)
-%     set(gcf, 'PaperPosition', [0 0 14 12]);
-%     fnOut = [subStr '_trioFilter_VERBOSE_' ...
-%         datestr(now, 'yyyymmdd')];
-%     saveas(gcf, [fnOut '.png'])
-% end
 
 
 
