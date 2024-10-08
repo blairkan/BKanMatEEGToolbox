@@ -1,5 +1,5 @@
-function [xOut, FSPECS] = doTrioFilterNoDS(xIn, fs, hpHz, nHz, lpHz, doPlots, figVisibility)
-% [xOut, FSPECS] = doTrioFilter(xIn, fsIn, hpHz, [nHz], lpHz, doPlots, figVisibility)
+function [xOut, FSPECS, tdFigH, fdFigH] = doTrioFilterNoDS(xIn, fs, hpHz, nHz, lpHz, doPlots, figVisibility)
+% [xOut, FSPECS, tdFigH, fdFigH] = doTrioFilter(xIn, fsIn, hpHz, [nHz], lpHz, doPlots, figVisibility)
 % --------------------------------------------------------------------------
 % Blair - December 2023
 %
@@ -14,13 +14,17 @@ function [xOut, FSPECS] = doTrioFilterNoDS(xIn, fs, hpHz, nHz, lpHz, doPlots, fi
 % - lpHz: Cutoff frequency for the lowpass filter, in Hz.
 %
 % Optional inputs
-% - doPlot: Boolean of whether to plot the results (default = 1)
+% - doPlots: Boolean of whether to plot the results (default = 1)
 % - figVisibility: Whether the main figures, if rendered, should be made 
-%   visible (default = 'on')
+%   visible (default = 'on'). if doPlots = 0, figVisibility will be set to
+%   'off' (figures need to be initialized even if the plots are not 
+%   rendered in them, so this will keep the figures invisible). 
 %
 % Outputs
 % - xOut: The channels-by-time-filtered data frame
 % - FSPECS: Struct with coefficients of all filters
+% - tdFigH: Handle of time-domain figure
+% - fdFigH: Handle of frequency-domain figure
 %
 % Filter info
 % - All filters use filtfilt and are therefore zero-phase. Notch and
@@ -106,6 +110,9 @@ end
 
 % Input 7: Whether main plots, if rendered, should be visible
 if nargin < 7 || isempty(figVisibility), figVisibility = 'on'; end
+
+% Turn off figure visibility of plots are not being rendered
+if ~doPlots, figVisibility = 'off'; end
 
 nRow = size(xIn, 1); % How many electrodes are we dealing with
 disp(['Number of electrodes: ' num2str(nRow)])
@@ -246,14 +253,18 @@ FSPECS.lpType = sFilt;
 
 %% Plot the data if requested 
 
+% Initiate the figures even if they are not rendered, so that their handles
+% can be returned
+tdFigH = figure(200); tdFigH.Visible = figVisibility;
+fdFigH = figure(201); fdFigH.Visible = figVisibility;
+
 if doPlots
 
     %%% New 2/15/2024: Input data will be DC corrected first!
     xInPlot = dcCorrect(xIn);
 
     %%% Time domain - Raw data
-    f200 = figure(200);
-    f200.Visible = figVisibility;
+    set(0,'CurrentFigure',tdFigH)
     tAx = (0:(15*fs-1)) / fs; % Updated 12/6/2023
     % Plot first and last 15 secs of data
     subplot(4, 2, 1)
@@ -280,9 +291,8 @@ if doPlots
     plot(xOut'); grid on; axis tight
     title(['Full data frame - filtered - ' sFilt])
     
-    f201 = figure(201);
-    f201.Visible = figVisibility;
     %%% Frequency domain - full output FFT range
+    set(0,'CurrentFigure',fdFigH)
     % Do output first to get ylim
     fAx = computeFFTFrequencyAxis(size(xInPlot,2), fs); % Updated 12/6/2023
     XOUT = abs(fft(xOut'));
