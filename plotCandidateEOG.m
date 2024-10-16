@@ -50,13 +50,20 @@ function plotCandidateEOG(x129, includeCheek)
 candidateEOG = [127 126 25 8 32 1 128 125];
 eogDescription = {'L cheek', 'R cheek', 'L VEOG', 'R VEOG',...
     'L HEOG1', 'R HEOG1', 'L HEOG2', 'R HEOG2'};
+nSubplotRows = 4; 
+
+if nargin < 2 || isempty(includeCheek)
+    candidateEOG = candidateEOG(3:end);
+    eogDescription = eogDescription(3:end);
+    nSubplotRows = 3; 
+end
 
 if size(x129,1) < 128
     error('Data frame must contain data from at least 128 electrodes.')
 end
 
 for i = 1:length(candidateEOG)
-   subplot(4, 2, i)
+   subplot(nSubplotRows, 2, i)
    plot(x129(candidateEOG(i),:)); grid on; 
    title(['Ch ' num2str(candidateEOG(i)) ' (' eogDescription{i} ')'], 'fontsize', 12)
    xlim([1 length(x129)])
