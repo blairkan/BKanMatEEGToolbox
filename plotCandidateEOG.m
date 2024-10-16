@@ -1,6 +1,6 @@
-function plotCandidateEOG(x129)
-% plotCandidateEOG(x129)
-% ------------------------------
+function plotCandidateEOG(x129, includeCheek)
+% plotCandidateEOG(x129, includeCheek)
+% --------------------------------------------
 % Blair - Feb. 29, 2016
 % This function takes in a channels x time data matrix (typically x129 or
 % x129epoched) and plots the time courses of the candidate EOG channels.
@@ -8,6 +8,13 @@ function plotCandidateEOG(x129)
 % - The user is responsible for initiating and titling the figure. 
 % - The function will work with 128-channel input matrix as well, but will
 %   return an error if fewer than 128 channels (rows) are present.
+%
+% Inputs
+% - x129 (required): Channels x time data matrix
+% - includeCheek (optional): Boolean of whether to plot the cheek
+%   electrodes (126 and 127). The user may want to exclude these e.g., if
+%   they will never be considered for VEOG due to participants wearing
+%   masks. If empty or not entered, will default to true. 
 
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
 % as follows:
