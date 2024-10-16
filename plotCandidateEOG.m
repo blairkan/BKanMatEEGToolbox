@@ -53,6 +53,10 @@ eogDescription = {'L cheek', 'R cheek', 'L VEOG', 'R VEOG',...
 nSubplotRows = 4; 
 
 if nargin < 2 || isempty(includeCheek)
+    includeCheek = 1; 
+end
+
+if ~includeCheek
     candidateEOG = candidateEOG(3:end);
     eogDescription = eogDescription(3:end);
     nSubplotRows = 3; 
