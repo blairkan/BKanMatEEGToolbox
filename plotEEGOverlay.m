@@ -31,7 +31,8 @@ yl = get(gca, 'ylim');
 grayCol = [.5 .5 .5];
 for i = 1:length(vertLinePos)
     hold on
-    xline(vertLinePos(i), 'color', grayCol, 'linewidth', 1.5);
+    % xline(vertLinePos(i), 'color', grayCol, 'linewidth', 1.5);
+    xline(vertLinePos(i), ':k', 'linewidth', 1.5);
 end
 
 % Move data to top (doesn't seem to be quite doing this...) 
