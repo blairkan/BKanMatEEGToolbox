@@ -1,9 +1,19 @@
 function plotSusChannels(fnOut, x129epoched, refChannel, susChannels)
 %plotSusChannels(fnOut, x129epoched, refChannel, susChannels)
-%This function takes in fnOut = which is a string containing subject ID, it
-%also takes the x129epoched raw data and a selected reference channel and a
-%vector of suspicious channels. 
-% Duc - 3/24/16
+% --------------------------------------------------------------------
+% This function takes in fnOut = which is a string containing subject ID, 
+% it also takes the x129epoched raw data and a selected reference channel 
+% and a vector of suspicious channels. 
+
+% Function history
+% - 12/10/2024: Changed color coding to add transparecy (alpha) e.g. 'b'
+%   changed to 'Color', [0 0 1 0.05] where the first three values are the 
+%   RGB code and the final value is the alpha value. Color vectors are 
+%   hard-coded into the function (not input by user) so there should be no
+%   backward compatibility issues. - Philip Hernandez
+% - 10/23/2024: Copied to SENSI-EEG-Preproc-CS-private from
+%   https://github.com/blairkan/BKanMatEEGToolbox - Blair
+% - 3/24/16: Duc
 
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
 % as follows:
@@ -40,10 +50,9 @@ figure; hold on;
 for i=1:length(susChannels)
     expr=sprintf('subplot %d1%d', length(susChannels), i);
     eval(expr)
-    plot(x129epoched(susChannels(i),:), 'r'); hold on;
-    plot(x129epoched(refChannel,:), 'b'); hold on;
+    plot(x129epoched(susChannels(i),:), 'Color', [1 0 0 0.1]); hold on; 
+    plot(x129epoched(refChannel,:), 'Color', [0 0 1 0.05]); hold on;
     title(sprintf('%s -- refCh: %d in blue; susCh: %d in red', fnOut, refChannel, susChannels(i)), ...
         'interpreter', 'none');
     xlim('tight')
 end
-
