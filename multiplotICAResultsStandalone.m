@@ -1,12 +1,15 @@
-function multiplotICAResults(W, xICA, corrV, corrH, badCh, sourceNumbers, figName)
-% multiplotICAResults(W, xICA, corrV, corrH, badCh, sourceNumbers, figName)
+function multiplotICAResultsStandalone(W, xICA, corrV, corrH, badCh, sourceNumbers, figName)
+% multiplotICAResultsStandalone(W, xICA, corrV, corrH, badCh, sourceNumbers, figName)
 % --------------------------------------------------------------------
 % Blair
 % August 18, 2015
 %
 % Create a multiplot of printed ICA-EOG correlation values, topoplot of the
 % forward-model projection of the source, and the timecourse of this EEG
-% component.
+% component. This is the standalone version of multiplotICAResults, and
+% no longer needs EEGLAB to load the sensor locations (uses pre-saved locs
+% file rather than readlocs) or render the topoplots (uses
+% topoplotStandalone rather than topoplot). 
 %
 % Inputs
 %   - W matrix (for topoplots)
@@ -27,6 +30,7 @@ function multiplotICAResults(W, xICA, corrV, corrH, badCh, sourceNumbers, figNam
 % See also plotTopoICA
 
 % Function history
+% - 2/12/2025: Adapted from multiplotICAResults(W, xICA, corrV, corrH, badCh, sourceNumbers, figName)
 % - 2/5/2025: Copied from https://github.com/blairkan/BKanMatEEGToolbox
 
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
@@ -75,20 +79,11 @@ if length(sourceNumbers) > 6
     return
 end
 
-%%%% Load the .sfp file and remove bad channel locations if necessary %%%%
-try
-    sfpFn = '/usr/ccrma/media/projects/jordan/Analysis/locfiles/Hydrocel GSN 128 1.0.sfp';
-    locs = readlocs(sfpFn);
-catch
-%     addpath(genpath('/Users/blair/Dropbox/Matlab/Misc EEG/'))
-    sfpFn = '/Users/blair/Dropbox/Matlab/Misc EEG/Hydrocel GSN 128 1.0.sfp';
-    locs = readlocs(sfpFn);
-end
-locs = locs(4:127);
-% toPlot = [toPlot; 2];  % FOR TESTING THE FUNCTION
+%%%% NEW FOR THIS VERSION: Load the pre-saved locs file
+load('locsEGI124.mat')
 
 % Dev/validation only
-save('OLD.mat', 'corrV', 'corrH', 'locs')
+save('NEW.mat', 'corrV', 'corrH', 'locs')
 
 % Remove coordinates for bad channels
 if length(badCh)>0
@@ -123,10 +118,10 @@ for i = 1:length(sourceNumbers)
         sourceNumbers(i), corrV(sourceNumbers(i)), corrH(sourceNumbers(i))), ...
         'fontsize', corrFontSize);
     
-    % Source topoplot
+    % NEW: STANDALONE component topoplot
     axes(hh(2 + (i-1) * ncol))
     tempTopo = Wi(:, sourceNumbers(i));
-    topoplot(tempTopo, locs);
+    topoplotStandalone(tempTopo, locs);
     % title([num2str(sourceNumbers(i))], 'fontSize', 16)
 %     set(gca, 'CLim', [min(tempTopo) max(tempTopo)])
     clear tempTopo

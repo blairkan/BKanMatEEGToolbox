@@ -1,12 +1,16 @@
-function multiplotICAResults(W, xICA, corrV, corrH, badCh, sourceNumbers, figName)
-% multiplotICAResults(W, xICA, corrV, corrH, badCh, sourceNumbers, figName)
+function multiplotICAResults_ekgStandalone(W, xICA, corrV, corrH, badCh, sourceNumbers, plotSamp, fs)
+
+% multiplotICAResults_ekgStandalone(W, xICA, corrV, corrH, badCh, sourceNumbers, fs)
 % --------------------------------------------------------------------
 % Blair
-% August 18, 2015
+% November 2020
 %
 % Create a multiplot of printed ICA-EOG correlation values, topoplot of the
 % forward-model projection of the source, and the timecourse of this EEG
-% component.
+% component. This is the standalone version of multiplotICAResults_EKG, and
+% no longer needs EEGLAB to load the sensor locations (uses pre-saved locs
+% file rather than readlocs) or render the topoplots (uses
+% topoplotStandalone rather than topoplot). 
 %
 % Inputs
 %   - W matrix (for topoplots)
@@ -15,7 +19,8 @@ function multiplotICAResults(W, xICA, corrV, corrH, badCh, sourceNumbers, figNam
 %   - corrH (for printed corr vals)
 %   - badCh (for correcting locs)
 %   - sourceNumbers (which sources are we looking at)
-%   - figure name (optional)
+%   - plotSamp (which time samples of data to plot)
+%   - fs (sampling rate)
 %
 % Adapted from plotTopoICA function, which did the following:
 % Pass in the ICA matrix W, vector of bad channels, and vector of source
@@ -24,15 +29,18 @@ function multiplotICAResults(W, xICA, corrV, corrH, badCh, sourceNumbers, figNam
 %
 % Note that this version is written for active electrodes 1:124.
 %
-% See also plotTopoICA
+% Adapted from multiplotICAResults(W, xICA, corrV, corrH, badCh, sourceNumbers, figName)
+%
+% See also plotTopoICA multiplotICAResults
 
 % Function history
+% - 2/12/2025: Adapted from multiplotICAResults_ekg(W, xICA, corrV, corrH, badCh, sourceNumbers, plotSamp, fs)
 % - 2/5/2025: Copied from https://github.com/blairkan/BKanMatEEGToolbox
 
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
 % as follows:
 % -------------------------------------------------------------------------
-% Copyright 2015 Blair Kaneshiro
+% Copyright 2021 Blair Kaneshiro
 % 
 % Redistribution and use in source and binary forms, with or without
 % modification, are permitted provided that the following conditions are met:
@@ -75,20 +83,8 @@ if length(sourceNumbers) > 6
     return
 end
 
-%%%% Load the .sfp file and remove bad channel locations if necessary %%%%
-try
-    sfpFn = '/usr/ccrma/media/projects/jordan/Analysis/locfiles/Hydrocel GSN 128 1.0.sfp';
-    locs = readlocs(sfpFn);
-catch
-%     addpath(genpath('/Users/blair/Dropbox/Matlab/Misc EEG/'))
-    sfpFn = '/Users/blair/Dropbox/Matlab/Misc EEG/Hydrocel GSN 128 1.0.sfp';
-    locs = readlocs(sfpFn);
-end
-locs = locs(4:127);
-% toPlot = [toPlot; 2];  % FOR TESTING THE FUNCTION
-
-% Dev/validation only
-save('OLD.mat', 'corrV', 'corrH', 'locs')
+%%%% NEW FOR THIS VERSION: Load the pre-saved locs file
+load('locsEGI124.mat')
 
 % Remove coordinates for bad channels
 if length(badCh)>0
@@ -104,11 +100,7 @@ nrow = length(sourceNumbers);
 ncol = 10;
 corrFontSize = 18;
 
-if nargin == 7
-    figure('name', figName, 'numbertitle', 'off')
-else
-    figure()
-end
+figure()
 
 % Load tight subplot AFTER initializing the figure
 % addpath(genpath('/usr/ccrma/media/jordan/Analysis/tight_subplot'));
@@ -126,12 +118,13 @@ for i = 1:length(sourceNumbers)
     % Source topoplot
     axes(hh(2 + (i-1) * ncol))
     tempTopo = Wi(:, sourceNumbers(i));
-    topoplot(tempTopo, locs);
+    topoplotStandalone(tempTopo, locs);
     % title([num2str(sourceNumbers(i))], 'fontSize', 16)
 %     set(gca, 'CLim', [min(tempTopo) max(tempTopo)])
     clear tempTopo
     
     % Timecourse of the source
     subplot(nrow, ncol, (3:ncol) + (i-1) * ncol)
-    plot(xICA(sourceNumbers(i), :)); grid on; xlim('tight')
+    plot(plotSamp / fs, xICA(sourceNumbers(i), plotSamp)); grid on
+    xlabel('Time (sec)')
 end
