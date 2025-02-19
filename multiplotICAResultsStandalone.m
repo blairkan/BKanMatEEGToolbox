@@ -130,3 +130,7 @@ for i = 1:length(sourceNumbers)
     subplot(nrow, ncol, (3:ncol) + (i-1) * ncol)
     plot(xICA(sourceNumbers(i), :)); grid on; xlim('tight')
 end
+
+if nargin == 7
+    sgtitle(figName, 'interpreter', 'none', 'fontsize', corrFontSize)
+end

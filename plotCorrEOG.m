@@ -1,9 +1,12 @@
-function plotCorrEOG(corrV, corrH)
-
-% plotCorrEOG(corrV, corrH)
+function plotCorrEOG(corrV, corrH, tStr)
+% plotCorrEOG(corrV, corrH, [tStr])
 % ---------------------------------
 % Blair - May 8, 2014
 % Plot ICA source correlations with VEOG and HEOG channels.
+
+% Function history
+% - 2/19/2025: Add optional title
+% - 2/5/2025: Copied from https://github.com/blairkan/BKanMatEEGToolbox
 
 % This software is licensed under the 3-Clause BSD License (New BSD License), 
 % as follows:
@@ -46,3 +49,7 @@ xlim([-1 1])
 ylim([-1 1])
 xlabel('HEOG', 'FontSize', 20, 'linewidth', 3)
 ylabel('VEOG', 'FontSize', 20, 'linewidth', 3)
+
+if nargin == 3
+    title(tStr, 'interpreter', 'none', 'fontsize', 20); 
+end

@@ -1,6 +1,6 @@
-function multiplotICAResults_ekgStandalone(W, xICA, corrV, corrH, badCh, sourceNumbers, plotSamp, fs)
+function multiplotICAResults_ekgStandalone(W, xICA, corrV, corrH, badCh, sourceNumbers, plotSamp, fs, tStr)
 
-% multiplotICAResults_ekgStandalone(W, xICA, corrV, corrH, badCh, sourceNumbers, fs)
+% multiplotICAResults_ekgStandalone(W, xICA, corrV, corrH, badCh, sourceNumbers, plotSamp, fs, [tStr])
 % --------------------------------------------------------------------
 % Blair
 % November 2020
@@ -125,4 +125,8 @@ for i = 1:length(sourceNumbers)
     subplot(nrow, ncol, (3:ncol) + (i-1) * ncol)
     plot(plotSamp / fs, xICA(sourceNumbers(i), plotSamp)); grid on
     xlabel('Time (sec)')
+end
+
+if nargin == 9
+    sgtitle(tStr, 'interpreter', 'none', 'fontsize', corrFontSize)
 end
