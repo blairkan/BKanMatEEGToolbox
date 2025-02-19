@@ -83,7 +83,7 @@ end
 load('locsEGI124.mat')
 
 % Dev/validation only
-save('NEW.mat', 'corrV', 'corrH', 'locs')
+% save('NEW.mat', 'corrV', 'corrH', 'locs')
 
 % Remove coordinates for bad channels
 if length(badCh)>0
