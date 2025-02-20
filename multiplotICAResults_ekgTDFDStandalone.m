@@ -133,7 +133,7 @@ for i = 1:length(sourceNumbers)
     thisFFTAx = computeFFTFrequencyAxis(length(thisData), fs);
     thisDATA = abs(fft(thisData)); % Magnitude spectrum
     subplot(nrow, ncol, (10:ncol) + (i-1) * ncol)
-    plot(thisFFTAx, thisDATA); grid on
+    plot(thisFFTAx, thisDATA, 'linewidth', 1.5); grid on
     xlim([0 maxFreq])
     xlabel('Freq (Hz)')
     set(gca, 'yticklabel', '')
